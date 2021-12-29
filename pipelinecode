@@ -1,0 +1,19 @@
+pipeline{
+    agent {label 'main'}
+    parameters{
+        string(name: 'keyname', defaultValue: 'Nikhil')
+        string(name: 'count', defaultValue: '1')
+        }
+    stages{
+        stage('AWS cli version'){
+            steps{
+              sh "aws --version"
+              }
+          }
+       stage('Launch Ec2'){
+         steps{
+           sh "aws ec2 run-instances --image-id ami-0629230e074c580f2 --count " + count + " --instance-type t2.micro --key-name " + keyname + " --security-group-ids sg-03fe3a9e93481754c --subnet-id subnet-01b6ac774a28996b1 --region us-east-2"
+           }
+        }
+     }
+  }
